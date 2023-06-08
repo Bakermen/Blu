@@ -1,0 +1,81 @@
+{% extends "base.html" %} {% block content %}
+<div id="recommended">
+  <button id="BLU" class="loginbtn" onclick="delete_btn()">
+    Get Your Book Recommendations?
+  </button>
+</div>
+
+<div id="data"></div>
+
+<div id="loading-overlay" class="loading-overlay" style="display: none">
+  <div class="loading-spinner"></div>
+</div>
+<script type="text/javascript">
+  ///////////////////////////////////
+  //////////predict////////////
+  $(document).ready(function () {
+    $("#BLU").click(function (e) {
+      e.preventDefault();
+      showLoadingOverlay();
+
+      $.ajax({
+        data: {
+          csrfmiddlewaretoken: "{{ csrf_token }}",
+        },
+        url: "{% url 'blu:get_books' username=username %}",
+        type: "GET",
+        dataType: "json",
+      })
+        .done(function (response) {
+          var books = JSON.parse(response.books);
+          for (var i = 0; i < books.length; i++) {
+            var book = books[i];
+            var bookInfo = document.createElement("div");
+            bookInfo.innerHTML =
+              '<div class="container"><div><img src="' +
+              book["image_url"] +
+              '" alt="' +
+              book["name"] +
+              '" class="image" /></div><div><div><div class="bookinfo"><h2>Title : <span class="some">' +
+              book["name"] +
+              '</span></h2><span class="wall">|</span><strong>By : <span class="some">' +
+              book["author"] +
+              '</span></strong></div><div class="text-container"><p>' +
+              book["summary"] +
+              "</p></div></div></div></div>" +
+              "<p> ISBN:" +
+              book["isbn"];
+            +"</p>";
+            document.getElementById("data").appendChild(bookInfo);
+          }
+
+          hideLoadingOverlay();
+        })
+        .fail(function (xhr, status, error) {
+          console.log(error);
+          hideLoadingOverlay();
+        });
+    });
+  });
+
+  function showLoadingOverlay() {
+    $("#loading-overlay").show();
+  }
+
+  function hideLoadingOverlay() {
+    document.getElementById("recommended").innerHTML =
+      "<h1>The Most Suitable Books For Your Taste Are:</h1>";
+    $("#loading-overlay").hide();
+  }
+  // function on() {
+  //   document.getElementById("overlay").style.display = "block";
+  // }
+
+  // function off() {
+  //   document.getElementById("overlay").style.display = "none";
+  // }
+  function delete_btn() {
+    document.getElementById("BLU").remove();
+  }
+</script>
+{% endblock content %}

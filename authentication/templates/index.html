@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Blu</title>
+    <meta name="theme-color" content="#1DB954" />
+    <meta
+      name="description"
+      content="Blu is a tool designed to analyse and backup your music on Spotify!"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}" />
+  </head>
+  <body>
+    
+        <noscript>
+          <div class="login-container">
+            <h1 class="title">Welcome to Blu</h1>
+          <h2 class="subtitle">Please enable Javascript to get started!</h2>
+        </div>
+      </noscript>
+      <div path="/login" id="login-page">
+        <div class="login-container">
+        </script>
+        <h1 class="title">
+          Welcome to Blu
+        </h1>
+        <h2 class="subtitle">
+          Blu is a Machine Learning model designed to analyse your musical preferences and recommend books.
+        </h2>
+        <button id="loginbtn">
+          Login with Spotify
+        </button>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function() {
+        // Button click event handler
+        $("#loginbtn").click(function() {
+          // Make an AJAX request to your Django view
+          $.ajax({
+            data: {
+              csrfmiddlewaretoken: '{{ csrf_token }}'
+             },
+            url: "{% url 'auth:login' %}",
+            type: "POST",
+            success: function(response) {
+              // Handle the response from the server
+              console.log(response);
+      
+              // Check if the response contains a redirect URL
+              if (response.redirect_url) {
+                // Redirect to the specified URL
+                window.location.href = response.redirect_url;
+              }
+            },
+            error: function(xhr, errmsg, err) {
+              // Handle the error case
+              console.log(xhr.status + ": " + xhr.responseText);
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
+

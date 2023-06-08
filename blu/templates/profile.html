@@ -1,0 +1,9 @@
+{% extends "base.html" %} {% block content %}
+<div  id="profile-page">
+  <img id="profile-icon" src="{{ user_info.image_url }}" />
+  <h1 id="profile-username">username: <span style="color: #5cb8e4;">{{ user_info.username }}</span></h1>
+  <h2 class="profile-followers">
+    followers: <span style="color: #5cb8e4;">{{ user_info.followers }}</span><span id="profile-followers"></span>
+  </h2>
+</div>
+{% endblock content %}

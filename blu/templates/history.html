@@ -1,0 +1,47 @@
+{% extends "base.html" %} {% block content %} {% if dates %} {% for date , books in dates.items %}
+<div class="drawerdiv">
+  <button class="drawer-button" onclick="toggleDrawer('id{{forloop.counter}}')">
+    {{date}}
+  </button>
+  <div class="drawer" id="id{{forloop.counter}}">
+    <div class="drawer-content">
+      {% for book in books %}
+      <div class="container">
+        <div>
+          <img src="{{book.image_url}}" alt="{{book.title}}" class="image" />
+        </div>
+        <div>
+          <div>
+            <div class="bookinfo">
+              <h2>Title : <span class="some">{{book.title}}</span></h2>
+              <span class="wall">|</span>
+              <strong>By : <span class="some">{{book.author}}</span></strong>
+            </div>
+            <div class="text-container">
+              <p>{{book.summary}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endfor %} {% else %}
+<div class="nohistory">
+  <h1>Such empty! (ง ͠° ͟ل͜ ͡°)ง</h1>
+  <h2>
+    It looks like you have never used our product before, try seeing the "BLU"
+    tab in your navigation bar, see what we can do!
+  </h2>
+</div>
+{%endif%}
+
+<script type="text/javascript">
+  function toggleDrawer(id) {
+    var drawer = document.getElementById(id);
+    drawer.style.height = drawer.style.height === "500px" ? "0px" : "500px";
+  }
+</script>
+
+{% endblock content%}

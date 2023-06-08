@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="favourites-page">
+    <div class="item-criteria" style="border-bottom: 1px solid #5cb8e4;">
+      <div><h1>Top <span id="item-type-title">Tracks</span></h1></div>
+      <div class="separator"></div>
+      
+      <div><a id="Tracks" onclick="ToggleTracks()">Tracks</a></div>
+      <div class="separator">|</div>
+      <div ><a id="Artists"  onclick="ToggleArtists()">Artists</a></div>
+    </div>    
+    {% for track in tracks %}
+    <div class="Tracks-tab" id="Tracks-tab">
+      <div
+        class="item"
+        style="animation: 0.2s ease-in 0s 1 normal both running itemFadeIn"
+      >
+        <img
+          src= {{track.image_url}}
+          width="140"
+          height="140"
+          loading="lazy"
+          alt=""
+        />
+        <div>
+          <h3>{{track.name}}</h3>
+          <h4>{{track.artist}}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+    {% endfor %}
+    {% for artist in artists %}
+    <div class="Artists-tab" id="Artists-tab">
+      <div
+        class="item"
+        style="animation: 0.2s ease-in 0s 1 normal both running itemFadeIn"
+      >
+        <img
+          src= {{artist.image_url}}
+          width="140"
+          height="140"
+          loading="lazy"
+          alt="{{artist.name}}"
+        />
+        <div>
+          <h3>{{artist.name}}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+    {% endfor %}
+{% endblock content%}
